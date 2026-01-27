@@ -42,7 +42,7 @@ export default function Navbar() {
             )}
         >
             <div className="container-fluid mx-auto px-6 flex items-center justify-between">
-                <Link href="https://xpo.ru/" className="flex items-center gap-2 group">
+                <Link href="https://xpo-eight.vercel.app" className="flex items-center gap-2 group">
                     <img
                         src="https://xpo.ru/assets/images/logo-white.png"
                         alt="XPO Logo"
