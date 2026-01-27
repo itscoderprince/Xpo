@@ -19,7 +19,7 @@ export default function Ticker() {
     const duplicatedData = [...marketData, ...marketData];
 
     return (
-        <div className="w-full bg-navy-900/50 border-y border-white/5 py-4 overflow-hidden backdrop-blur-sm">
+        <div className="w-full bg-navy-900/50 border-y border-white/5 py-3 md:py-4 overflow-hidden backdrop-blur-sm">
             <motion.div
                 animate={{ x: [0, -1000] }}
                 transition={{
@@ -30,13 +30,13 @@ export default function Ticker() {
                         ease: "linear",
                     },
                 }}
-                className="flex gap-12 whitespace-nowrap min-w-max px-12"
+                className="flex gap-8 md:gap-12 whitespace-nowrap min-w-max px-6 md:px-12"
             >
                 {duplicatedData.map((item, index) => (
-                    <div key={index} className="flex items-center gap-3">
-                        <span className="text-sm font-bold text-white tracking-widest">{item.symbol}</span>
-                        <span className="text-sm font-medium text-slate-300">{item.price}</span>
-                        <div className={`flex items-center gap-1 text-xs font-bold ${item.up ? "text-emerald-400" : "text-red-400"}`}>
+                    <div key={index} className="flex items-center gap-2.5 md:gap-3">
+                        <span className="text-xs md:text-sm font-bold text-white tracking-widest">{item.symbol}</span>
+                        <span className="text-[11px] md:text-sm font-medium text-slate-300">{item.price}</span>
+                        <div className={`flex items-center gap-1 text-[10px] md:text-xs font-bold ${item.up ? "text-emerald-400" : "text-red-400"}`}>
                             {item.up ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                             {item.change}
                         </div>

@@ -97,28 +97,28 @@ export default function Navbar() {
                         exit={{ opacity: 0, height: 0 }}
                         className="lg:hidden bg-navy-950 border-b border-white/10 overflow-hidden"
                     >
-                        <div className="flex flex-col p-6 gap-6">
+                        <div className="flex flex-col p-4 sm:p-6 gap-4 sm:gap-6">
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.name}
                                     href={link.href}
-                                    className="text-sm font-bold uppercase tracking-widest text-slate-300"
+                                    className="text-[13px] font-bold uppercase tracking-widest text-slate-300 active:text-white transition-colors"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     {link.name}
                                 </Link>
                             ))}
                             <hr className="border-white/5" />
-                            <div className="flex flex-col gap-3 pb-4">
+                            <div className="flex flex-col gap-3 pb-2 sm:pb-4">
                                 <Link
                                     href="/login"
-                                    className="w-full text-center py-3 text-white font-bold uppercase tracking-widest text-sm"
+                                    className="w-full text-center py-2.5 text-white font-bold uppercase tracking-widest text-xs sm:text-sm"
                                 >
                                     Sign In
                                 </Link>
                                 <Link
                                     href="/signup"
-                                    className="w-full bg-electric-blue text-white font-bold uppercase tracking-widest py-3 rounded-xl text-center text-sm"
+                                    className="w-full bg-electric-blue text-white font-bold uppercase tracking-widest py-3 rounded-xl text-center text-xs sm:text-sm shadow-lg shadow-blue-500/20"
                                 >
                                     Sign Up
                                 </Link>

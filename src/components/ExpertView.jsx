@@ -37,15 +37,15 @@ const posts = [
 
 export default function ExpertView() {
     return (
-        <section id="blog" className="py-24 relative bg-navy-950/50">
-            <div className="container mx-auto px-6">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                    <div className="flex flex-col gap-4">
+        <section id="blog" className="py-16 md:py-24 relative bg-navy-950/50">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-16 gap-6">
+                    <div className="flex flex-col gap-3 md:gap-4">
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="text-electric-blue font-bold uppercase tracking-[0.2em] text-xs"
+                            className="text-electric-blue font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs"
                         >
                             Expert View
                         </motion.div>
@@ -53,17 +53,17 @@ export default function ExpertView() {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="text-4xl md:text-5xl font-black tracking-tighter text-white"
+                            className="text-3xl md:text-5xl font-black tracking-tighter text-white"
                         >
                             The Index Managers&apos; View
                         </motion.h2>
                     </div>
-                    <Link href="/blog" className="flex items-center gap-2 text-white font-bold hover:text-electric-blue transition-all group">
+                    <Link href="/blog" className="flex items-center gap-2 text-white font-bold hover:text-electric-blue transition-all group text-sm md:text-base">
                         See all posts <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                     {posts.map((post, index) => (
                         <motion.div
                             key={index}
@@ -71,7 +71,7 @@ export default function ExpertView() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
-                            className="glass-card rounded-[2.5rem] overflow-hidden group hover:border-white/20 transition-all border border-white/5"
+                            className="glass-card rounded-3xl overflow-hidden group hover:border-white/20 transition-all border border-white/5"
                         >
                             <div className="aspect-[16/10] overflow-hidden relative">
                                 <img
@@ -84,12 +84,12 @@ export default function ExpertView() {
                                 </div>
                             </div>
 
-                            <div className="p-6">
+                            <div className="p-5 md:p-6">
                                 <div className="flex items-center gap-3 mb-3 text-[9px] font-bold text-slate-500 uppercase tracking-widest">
                                     <span className="flex items-center gap-1.5"><Calendar className="w-3 h-3" /> {post.date}</span>
                                     <span className="flex items-center gap-1.5"><User className="w-3 h-3" /> {post.author.split(' ')[0]}</span>
                                 </div>
-                                <h3 className="text-lg font-bold text-white mb-4 group-hover:text-electric-blue transition-colors line-clamp-2 leading-snug">
+                                <h3 className="text-base md:text-lg font-bold text-white mb-4 group-hover:text-electric-blue transition-colors line-clamp-2 leading-snug">
                                     {post.title}
                                 </h3>
                                 <Link href="#" className="inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-white transition-colors">

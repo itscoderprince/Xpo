@@ -70,24 +70,24 @@ export default function BlogPage() {
         <main className="min-h-screen bg-navy-950">
             <Navbar />
 
-            <section className="pt-40 pb-24 relative overflow-hidden">
-                <div className="container mx-auto px-6">
+            <section className="pt-28 pb-16 md:pt-40 md:pb-24 relative overflow-hidden">
+                <div className="container mx-auto px-4 md:px-6">
                     {/* Header */}
-                    <div className="text-center mb-16">
+                    <div className="text-center mb-10 md:mb-16">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             className="flex items-center justify-center gap-2 mb-4"
                         >
                             <img src="https://xpo.ru/assets/images/x-2.png" alt="X Icon" className="h-6 w-auto" />
-                            <h5 className="text-electric-blue font-bold uppercase tracking-[0.2em] text-sm">Expert View</h5>
+                            <h5 className="text-electric-blue font-bold uppercase tracking-[0.2em] text-[10px] md:text-sm">Expert View</h5>
                         </motion.div>
 
                         <motion.h1
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
-                            className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-6"
+                            className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter text-white mb-6 leading-tight"
                         >
                             The Index Managers&apos; View
                         </motion.h1>
@@ -96,7 +96,7 @@ export default function BlogPage() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="text-slate-400 max-w-[700px] mx-auto text-lg"
+                            className="text-slate-400 max-w-[700px] mx-auto text-base md:text-lg"
                         >
                             Insights, analysis, and market perspectives from our expert index managers.
                         </motion.p>
@@ -107,13 +107,13 @@ export default function BlogPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
-                        className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12"
+                        className="flex flex-col md:flex-row justify-between items-center gap-6 mb-10 md:mb-12"
                     >
-                        <div className="flex flex-wrap gap-3">
+                        <div className="flex flex-wrap gap-2 md:gap-3 justify-center md:justify-start">
                             {categories.map((cat, i) => (
                                 <button
                                     key={i}
-                                    className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${i === 0 ? 'bg-electric-blue text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'}`}
+                                    className={`px-4 md:px-5 py-2 rounded-full text-[11px] md:text-sm font-bold transition-all ${i === 0 ? 'bg-electric-blue text-white shadow-lg shadow-blue-500/20' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'}`}
                                 >
                                     {cat}
                                 </button>
@@ -123,21 +123,21 @@ export default function BlogPage() {
                             <input
                                 type="text"
                                 placeholder="Search articles..."
-                                className="w-full md:w-[300px] bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-6 text-white placeholder-slate-500 focus:outline-none focus:border-electric-blue transition-colors"
+                                className="w-full md:w-[300px] bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-6 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-electric-blue transition-colors"
                             />
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
                         </div>
                     </motion.div>
 
                     {/* Posts Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                         {posts.map((post, index) => (
                             <motion.div
                                 key={post.id}
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.1 * index }}
-                                className="glass-card rounded-[2rem] overflow-hidden group hover:border-white/20 transition-all border border-white/5"
+                                className="glass-card rounded-3xl overflow-hidden group hover:border-white/20 transition-all border border-white/5"
                             >
                                 <Link href={`/blog/${post.id}`}>
                                     <div className="aspect-[16/10] overflow-hidden relative">
@@ -151,12 +151,12 @@ export default function BlogPage() {
                                         </div>
                                     </div>
 
-                                    <div className="p-6">
+                                    <div className="p-5 md:p-6">
                                         <div className="flex items-center gap-3 mb-3 text-[9px] font-bold text-slate-500 uppercase tracking-widest">
                                             <span className="flex items-center gap-1.5"><Calendar className="w-3 h-3" /> {post.date}</span>
                                             <span className="flex items-center gap-1.5"><User className="w-3 h-3" /> {post.author.split(' ')[0]}</span>
                                         </div>
-                                        <h3 className="text-lg font-bold text-white mb-3 group-hover:text-electric-blue transition-colors line-clamp-2 leading-snug">
+                                        <h3 className="text-base md:text-lg font-bold text-white mb-3 group-hover:text-electric-blue transition-colors line-clamp-2 leading-snug">
                                             {post.title}
                                         </h3>
                                         <p className="text-slate-400 text-xs line-clamp-2 mb-4 leading-relaxed">{post.excerpt}</p>
