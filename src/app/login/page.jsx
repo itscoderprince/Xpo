@@ -1,12 +1,62 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { LogIn, Eye, EyeOff, Sparkles, User, Lock, ArrowLeft } from "lucide-react";
+import { LogIn, Eye, EyeOff, Sparkles, User, Lock, ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
+    const router = useRouter();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
+
+    const onSubmit = async (data) => {
+        setIsLoading(true);
+        setError("");
+
+        try {
+            const response = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || "Something went wrong");
+            }
+
+            // Store email for OTP page
+            sessionStorage.setItem("otpEmail", data.email);
+
+            // In development, store OTP for testing
+            if (result.devOtp) {
+                sessionStorage.setItem("devOtp", result.devOtp);
+                console.log("🔐 Dev OTP:", result.devOtp);
+            }
+
+            router.push("/verify-otp");
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <main className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-navy-950">
@@ -102,19 +152,37 @@ export default function LoginPage() {
                         <p className="text-slate-400">Please enter your details to sign in.</p>
                     </motion.div>
 
-                    <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
+                    {error && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm"
+                        >
+                            {error}
+                        </motion.div>
+                    )}
+
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                         <div className="space-y-2">
                             <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Email Address</label>
                             <div className="relative group">
                                 <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-electric-blue transition-colors" />
                                 <input
                                     type="email"
-                                    name="email"
-                                    required
+                                    {...register("email", {
+                                        required: "Email is required",
+                                        pattern: {
+                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                            message: "Please enter a valid email address",
+                                        },
+                                    })}
                                     placeholder="name@company.com"
-                                    className="w-full bg-navy-900 border border-white/10 rounded-xl py-4 pl-12 pr-6 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium"
+                                    className={`w-full bg-navy-900 border ${errors.email ? "border-red-500/50" : "border-white/10"} rounded-xl py-4 pl-12 pr-6 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium`}
                                 />
                             </div>
+                            {errors.email && (
+                                <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
+                            )}
                         </div>
 
                         <div className="space-y-2">
@@ -126,10 +194,11 @@ export default function LoginPage() {
                                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-electric-blue transition-colors" />
                                 <input
                                     type={showPassword ? "text" : "password"}
-                                    name="password"
-                                    required
+                                    {...register("password", {
+                                        required: "Password is required",
+                                    })}
                                     placeholder="••••••••"
-                                    className="w-full bg-navy-900 border border-white/10 rounded-xl py-4 pl-12 pr-12 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium"
+                                    className={`w-full bg-navy-900 border ${errors.password ? "border-red-500/50" : "border-white/10"} rounded-xl py-4 pl-12 pr-12 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium`}
                                 />
                                 <button
                                     type="button"
@@ -139,17 +208,36 @@ export default function LoginPage() {
                                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                 </button>
                             </div>
+                            {errors.password && (
+                                <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>
+                            )}
                         </div>
 
                         <motion.button
-                            whileHover={{ scale: 1.01 }}
-                            whileTap={{ scale: 0.99 }}
+                            whileHover={{ scale: isLoading ? 1 : 1.01 }}
+                            whileTap={{ scale: isLoading ? 1 : 0.99 }}
                             type="submit"
-                            className="w-full bg-electric-blue hover:bg-blue-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/20 active:shadow-none mt-2"
+                            disabled={isLoading}
+                            className="w-full bg-electric-blue hover:bg-blue-600 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/20 active:shadow-none mt-2"
                         >
-                            Sign in <LogIn className="w-4 h-4" />
+                            {isLoading ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                    Signing in...
+                                </>
+                            ) : (
+                                <>
+                                    Sign in <LogIn className="w-4 h-4" />
+                                </>
+                            )}
                         </motion.button>
                     </form>
+
+                    <div className="mt-4 text-center">
+                        <Link href="/forgot-password" className="text-slate-400 hover:text-white text-sm transition-colors">
+                            Forgot your password?
+                        </Link>
+                    </div>
 
                     <div className="mt-8 pt-8 border-t border-white/5 text-center">
                         <p className="text-slate-400 text-sm">

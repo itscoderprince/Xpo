@@ -1,12 +1,78 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { UserPlus, Eye, EyeOff, ShieldCheck, Mail, Lock } from "lucide-react";
+import { UserPlus, Eye, EyeOff, ShieldCheck, Mail, Lock, User, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
+    const router = useRouter();
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+        },
+    });
+
+    const password = watch("password");
+
+    const onSubmit = async (data) => {
+        setIsLoading(true);
+        setError("");
+
+        try {
+            const response = await fetch("/api/auth/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || "Something went wrong");
+            }
+
+            // Store email for verification page
+            sessionStorage.setItem("verifyEmail", data.email);
+
+            // In development, store token for easy testing
+            if (result.devToken) {
+                sessionStorage.setItem("devVerificationToken", result.devToken);
+                console.log("🔐 Dev Verification Token:", result.devToken);
+                console.log("🔗 Verification URL:", `${window.location.origin}/verify-email?token=${result.devToken}`);
+            }
+
+            router.push("/verify-email");
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Password validation rules
+    const validatePassword = (value) => {
+        if (value.length < 8) return "Password must be at least 8 characters";
+        if (!/[A-Z]/.test(value)) return "Password must contain at least one uppercase letter";
+        if (!/[a-z]/.test(value)) return "Password must contain at least one lowercase letter";
+        if (!/[0-9]/.test(value)) return "Password must contain at least one number";
+        return true;
+    };
 
     return (
         <main className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-navy-950">
@@ -97,52 +163,74 @@ export default function SignupPage() {
                         <p className="text-slate-400">Start your 30-day free trial on the best investment platform.</p>
                     </motion.div>
 
-                    <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest text-slate-500">First Name</label>
+                    {error && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm"
+                        >
+                            {error}
+                        </motion.div>
+                    )}
+
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                        {/* Name Field */}
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Full Name</label>
+                            <div className="relative group">
+                                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-electric-blue transition-colors" />
                                 <input
                                     type="text"
-                                    name="firstName"
-                                    placeholder="John"
-                                    className="w-full bg-navy-900 border border-white/10 rounded-xl py-4 px-4 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium"
+                                    {...register("name", {
+                                        required: "Name is required",
+                                        minLength: { value: 2, message: "Name must be at least 2 characters" },
+                                        maxLength: { value: 50, message: "Name must be less than 50 characters" },
+                                    })}
+                                    placeholder="John Doe"
+                                    className={`w-full bg-navy-900 border ${errors.name ? "border-red-500/50" : "border-white/10"} rounded-xl py-4 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium`}
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Last Name</label>
-                                <input
-                                    type="text"
-                                    name="lastName"
-                                    placeholder="Doe"
-                                    className="w-full bg-navy-900 border border-white/10 rounded-xl py-4 px-4 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium"
-                                />
-                            </div>
+                            {errors.name && (
+                                <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>
+                            )}
                         </div>
 
+                        {/* Email Field */}
                         <div className="space-y-2">
                             <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Email Address</label>
                             <div className="relative group">
                                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-electric-blue transition-colors" />
                                 <input
                                     type="email"
-                                    name="email"
-                                    required
+                                    {...register("email", {
+                                        required: "Email is required",
+                                        pattern: {
+                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                            message: "Please enter a valid email address",
+                                        },
+                                    })}
                                     placeholder="name@company.com"
-                                    className="w-full bg-navy-900 border border-white/10 rounded-xl py-4 pl-12 pr-6 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium"
+                                    className={`w-full bg-navy-900 border ${errors.email ? "border-red-500/50" : "border-white/10"} rounded-xl py-4 pl-12 pr-6 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium`}
                                 />
                             </div>
+                            {errors.email && (
+                                <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
+                            )}
                         </div>
 
+                        {/* Password Field */}
                         <div className="space-y-2">
                             <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Create Password</label>
                             <div className="relative group">
                                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-electric-blue transition-colors" />
                                 <input
                                     type={showPassword ? "text" : "password"}
-                                    name="password"
-                                    required
+                                    {...register("password", {
+                                        required: "Password is required",
+                                        validate: validatePassword,
+                                    })}
                                     placeholder="Min. 8 characters"
-                                    className="w-full bg-navy-900 border border-white/10 rounded-xl py-4 pl-12 pr-12 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium"
+                                    className={`w-full bg-navy-900 border ${errors.password ? "border-red-500/50" : "border-white/10"} rounded-xl py-4 pl-12 pr-12 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium`}
                                 />
                                 <button
                                     type="button"
@@ -152,25 +240,75 @@ export default function SignupPage() {
                                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                 </button>
                             </div>
+                            {errors.password && (
+                                <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>
+                            )}
                             <p className="text-xs text-slate-500 mt-1">Must contain at least 8 characters, one uppercase, one lowercase and one number.</p>
                         </div>
 
+                        {/* Confirm Password Field */}
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Confirm Password</label>
+                            <div className="relative group">
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-electric-blue transition-colors" />
+                                <input
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    {...register("confirmPassword", {
+                                        required: "Please confirm your password",
+                                        validate: (value) =>
+                                            value === password || "Passwords do not match",
+                                    })}
+                                    placeholder="Confirm your password"
+                                    className={`w-full bg-navy-900 border ${errors.confirmPassword ? "border-red-500/50" : "border-white/10"} rounded-xl py-4 pl-12 pr-12 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium`}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
+                                >
+                                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                </button>
+                            </div>
+                            {errors.confirmPassword && (
+                                <p className="text-red-400 text-xs mt-1">{errors.confirmPassword.message}</p>
+                            )}
+                        </div>
+
+                        {/* Terms Checkbox */}
                         <div className="flex items-start gap-3 py-2">
                             <div className="flex items-center h-5">
-                                <input id="terms" type="checkbox" className="w-4 h-4 border border-white/10 rounded bg-navy-900 focus:ring-2 focus:ring-electric-blue text-electric-blue" />
+                                <input
+                                    id="terms"
+                                    type="checkbox"
+                                    {...register("terms", { required: "You must accept the terms" })}
+                                    className="w-4 h-4 border border-white/10 rounded bg-navy-900 focus:ring-2 focus:ring-electric-blue text-electric-blue"
+                                />
                             </div>
                             <label htmlFor="terms" className="text-sm text-slate-400 leading-tight">
                                 I agree to the <Link href="#" className="text-white hover:text-electric-blue transition-colors underline decoration-slate-600 underline-offset-4 hover:decoration-electric-blue">Terms & Conditions</Link> and <Link href="#" className="text-white hover:text-electric-blue transition-colors underline decoration-slate-600 underline-offset-4 hover:decoration-electric-blue">Privacy Policy</Link>.
                             </label>
                         </div>
+                        {errors.terms && (
+                            <p className="text-red-400 text-xs -mt-2">{errors.terms.message}</p>
+                        )}
 
                         <motion.button
-                            whileHover={{ scale: 1.01 }}
-                            whileTap={{ scale: 0.99 }}
+                            whileHover={{ scale: isLoading ? 1 : 1.01 }}
+                            whileTap={{ scale: isLoading ? 1 : 0.99 }}
                             type="submit"
-                            className="w-full bg-gradient-to-r from-blue-500 to-emerald-500 hover:from-blue-600 hover:to-emerald-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/20 active:shadow-none mt-2"
+                            disabled={isLoading}
+                            className="w-full bg-gradient-to-r from-blue-500 to-emerald-500 hover:from-blue-600 hover:to-emerald-600 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/20 active:shadow-none mt-2"
                         >
-                            Create Account <UserPlus className="w-4 h-4" />
+                            {isLoading ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                    Creating Account...
+                                </>
+                            ) : (
+                                <>
+                                    Create Account <UserPlus className="w-4 h-4" />
+                                </>
+                            )}
                         </motion.button>
                     </form>
 
