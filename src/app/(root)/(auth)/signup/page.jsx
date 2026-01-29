@@ -33,7 +33,6 @@ export default function SignupPage() {
     const onSubmit = async (data) => {
         setIsLoading(true);
         setError("");
-
         try {
             const response = await fetch("/api/auth/signup", {
                 method: "POST",

@@ -3,11 +3,28 @@ import connectDB from "@/lib/db";
 import User from "@/models/User";
 import { sendEmail } from "@/lib/email";
 import { signupSchema } from "@/lib/validations";
+import rateLimit from "@/lib/rate-limit";
+
+const limiter = rateLimit({
+    limit: 3, // 3 signups
+    interval: 60000 * 60, // per hour
+});
 
 export async function POST(request) {
     try {
         // Parse and validate request body
         const body = await request.json();
+
+        // Rate limiting based on IP
+        const ip = request.headers.get("x-forwarded-for") || "anonymous";
+        try {
+            await limiter.check(`signup-${ip}`);
+        } catch (error) {
+            return NextResponse.json(
+                { success: false, message: "Too many signup attempts. Please try again in an hour." },
+                { status: 429 }
+            );
+        }
 
         // Validate with Zod
         const validation = signupSchema.safeParse(body);
@@ -57,8 +74,6 @@ export async function POST(request) {
             {
                 success: true,
                 message: "Account created successfully. Please check your email to verify.",
-                // Only include token in development for testing
-                ...(process.env.NODE_ENV === "development" && { devToken: verificationToken })
             },
             { status: 201 }
         );

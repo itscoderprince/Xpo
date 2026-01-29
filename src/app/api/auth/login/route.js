@@ -3,11 +3,28 @@ import connectDB from "@/lib/db";
 import User from "@/models/User";
 import { sendEmail } from "@/lib/email";
 import { loginSchema } from "@/lib/validations";
+import rateLimit from "@/lib/rate-limit";
+
+const limiter = rateLimit({
+    limit: 5, // 5 attempts
+    interval: 60000, // per minute
+});
 
 export async function POST(request) {
     try {
         // Parse and validate request body
         const body = await request.json();
+
+        // Rate limiting based on IP or email
+        const ip = request.headers.get("x-forwarded-for") || "anonymous";
+        try {
+            await limiter.check(`${ip}-${body.email}`);
+        } catch (error) {
+            return NextResponse.json(
+                { success: false, message: "Too many login attempts. Please try again later." },
+                { status: 429 }
+            );
+        }
 
         // Validate with Zod
         const validation = loginSchema.safeParse(body);
