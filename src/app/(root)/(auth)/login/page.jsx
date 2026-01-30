@@ -6,6 +6,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { Particles } from "@/components/ui/particles";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
@@ -59,34 +62,29 @@ export default function LoginPage() {
     };
 
     return (
-        <main className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-navy-950">
+        <main className="h-screen w-full grid grid-cols-1 lg:grid-cols-2 bg-navy-950 overflow-hidden">
 
-            {/* Left Panel: Branded & Visual */}
+            {/* Left Panel: Visual Experience */}
             <div className="hidden lg:flex flex-col justify-between p-12 bg-navy-900 border-r border-white/5 relative overflow-hidden">
 
-                {/* Abstract Background Effects */}
-                <div className="absolute inset-0">
-                    <div className="absolute top-[-20%] left-[-20%] w-[80%] h-[80%] bg-blue-600/10 blur-[150px] rounded-full" />
-                    <div className="absolute bottom-[-20%] right-[-20%] w-[80%] h-[80%] bg-emerald-600/10 blur-[150px] rounded-full" />
-
-                    {/* Animated Logo Orb (Reused Design element) */}
-                    <motion.div
-                        animate={{
-                            rotate: 360,
-                        }}
-                        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] border border-white/5 rounded-full"
-                    />
-                    <motion.div
-                        animate={{
-                            rotate: -360,
-                        }}
-                        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] border border-white/5 rounded-full border-dashed"
+                {/* Background Particles */}
+                <div className="absolute inset-0 z-0">
+                    <Particles
+                        className="absolute inset-0"
+                        quantity={150}
+                        ease={80}
+                        color="#3b82f6"
+                        refresh
                     />
                 </div>
 
-                {/* Content */}
+                {/* Abstract Glows */}
+                <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute top-[-20%] left-[-20%] w-[80%] h-[80%] bg-blue-600/10 blur-[150px] rounded-full" />
+                    <div className="absolute bottom-[-20%] right-[-20%] w-[80%] h-[80%] bg-emerald-600/10 blur-[150px] rounded-full" />
+                </div>
+
+                {/* Brand Header */}
                 <div className="relative z-10">
                     <Link href="/" className="flex items-center gap-3 group w-fit">
                         <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-xl flex items-center justify-center font-black text-xl text-white shadow-lg shadow-blue-500/20">
@@ -96,45 +94,54 @@ export default function LoginPage() {
                     </Link>
                 </div>
 
-                <div className="relative z-10 max-w-md">
+                {/* Central Visual */}
+                <div className="relative z-10 max-w-lg">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
+                        className="space-y-6"
                     >
-                        <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full w-fit mb-6">
+                        <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full w-fit backdrop-blur-md">
                             <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
                             <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">Trusted by 4.9M+ Traders</span>
                         </div>
-                        <h2 className="text-4xl font-bold text-white mb-6 leading-tight">
-                            Unlock Your <br />
-                            <span className="text-gradient-blue italic">Financial Potential</span>
+
+                        <h2 className="text-5xl font-bold text-white leading-tight">
+                            Access Global <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">
+                                Financial Markets
+                            </span>
                         </h2>
+
                         <p className="text-slate-400 text-lg leading-relaxed">
-                            "XPO provides the most intuitive platform for diverse asset management. It's not just trading; it's smart investing."
+                            Experience institutional-grade execution, managing your portfolio with precision and confidence on the XPO platform.
                         </p>
-                        <div className="mt-8 flex items-center gap-4">
-                            <div className="flex -space-x-3">
+
+                        {/* Interactive Avatar Strip */}
+                        <div className="flex items-center gap-4 pt-4">
+                            <div className="flex -space-x-4">
                                 {[1, 2, 3, 4].map((i) => (
-                                    <div key={i} className="w-10 h-10 rounded-full border-2 border-navy-900 bg-slate-800 overflow-hidden">
-                                        <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i}`} alt="User" />
+                                    <div key={i} className="w-12 h-12 rounded-full border-2 border-navy-900 bg-slate-800 overflow-hidden relative z-0 hover:z-10 hover:scale-110 transition-transform duration-300">
+                                        <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i + 20}`} alt="User" />
                                     </div>
                                 ))}
                             </div>
-                            <div className="text-sm font-bold text-white">
-                                Join our community
+                            <div className="text-sm font-semibold text-white">
+                                <span className="text-emerald-400 font-bold">4.9M+</span> Active Users
                             </div>
                         </div>
                     </motion.div>
                 </div>
 
+                {/* Footer Copyright */}
                 <div className="relative z-10 text-xs text-slate-500 font-medium">
-                    © 2026 XPO Investment Management.
+                    © 2026 XPO Investment Management. All rights reserved.
                 </div>
             </div>
 
-            {/* Right Panel: Clean Form */}
-            <div className="flex flex-col justify-center px-6 sm:px-12 lg:px-24 py-12 relative">
+            {/* Right Panel: Login Form */}
+            <div className="flex flex-col justify-center px-6 sm:px-12 lg:px-24 py-12 relative h-full overflow-y-auto">
                 <div className="lg:hidden absolute top-6 left-6">
                     <Link href="/" className="flex items-center gap-2 group">
                         <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-lg flex items-center justify-center font-black text-white">X</div>
@@ -142,33 +149,36 @@ export default function LoginPage() {
                     </Link>
                 </div>
 
-                <div className="max-w-[400px] w-full mx-auto">
+                <div className="max-w-[400px] w-full mx-auto space-y-8">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="mb-10"
+                        className="space-y-2"
                     >
-                        <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Welcome back</h1>
-                        <p className="text-slate-400">Please enter your details to sign in.</p>
+                        <h1 className="text-3xl font-bold text-white tracking-tight">Welcome back</h1>
+                        <p className="text-slate-400">Enter your credentials to access your dashboard.</p>
                     </motion.div>
 
                     {error && (
                         <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm"
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm flex items-center gap-2"
                         >
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
                             {error}
                         </motion.div>
                     )}
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         <div className="space-y-2">
-                            <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Email Address</label>
-                            <div className="relative group">
-                                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-electric-blue transition-colors" />
-                                <input
+                            <Label htmlFor="email" className="text-slate-300">Email Address</Label>
+                            <div className="relative">
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                                <Input
+                                    id="email"
                                     type="email"
+                                    placeholder="name@company.com"
                                     {...register("email", {
                                         required: "Email is required",
                                         pattern: {
@@ -176,49 +186,47 @@ export default function LoginPage() {
                                             message: "Please enter a valid email address",
                                         },
                                     })}
-                                    placeholder="name@company.com"
-                                    className={`w-full bg-navy-900 border ${errors.email ? "border-red-500/50" : "border-white/10"} rounded-xl py-4 pl-12 pr-6 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium`}
+                                    className={`pl-10 bg-navy-900 border-white/10 text-white placeholder:text-slate-600 focus-visible:ring-electric-blue/50 h-12 rounded-xl text-base ${errors.email ? "border-red-500/50" : ""}`}
                                 />
                             </div>
                             {errors.email && (
-                                <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
+                                <p className="text-red-400 text-xs">{errors.email.message}</p>
                             )}
                         </div>
 
                         <div className="space-y-2">
                             <div className="flex justify-between items-center">
-                                <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Password</label>
-                                <Link href="#" className="text-xs font-bold text-electric-blue hover:text-blue-400 transition-colors">Forgot Password?</Link>
+                                <Label htmlFor="password" className="text-slate-300">Password</Label>
+                                <Link href="#" className="text-xs font-bold text-electric-blue hover:text-blue-400">Forgot Password?</Link>
                             </div>
-                            <div className="relative group">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-electric-blue transition-colors" />
-                                <input
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                                <Input
+                                    id="password"
                                     type={showPassword ? "text" : "password"}
-                                    {...register("password", {
-                                        required: "Password is required",
-                                    })}
-                                    placeholder="••••••••"
-                                    className={`w-full bg-navy-900 border ${errors.password ? "border-red-500/50" : "border-white/10"} rounded-xl py-4 pl-12 pr-12 text-white placeholder-slate-600 focus:outline-none focus:border-electric-blue focus:bg-navy-900/50 transition-all font-medium`}
+                                    placeholder="Enter your password"
+                                    {...register("password", { required: "Password is required" })}
+                                    className={`pl-10 pr-10 bg-navy-900 border-white/10 text-white placeholder:text-slate-600 focus-visible:ring-electric-blue/50 h-12 rounded-xl text-base ${errors.password ? "border-red-500/50" : ""}`}
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
                                 >
                                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                 </button>
                             </div>
                             {errors.password && (
-                                <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>
+                                <p className="text-red-400 text-xs">{errors.password.message}</p>
                             )}
                         </div>
 
                         <motion.button
-                            whileHover={{ scale: isLoading ? 1 : 1.01 }}
-                            whileTap={{ scale: isLoading ? 1 : 0.99 }}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                             type="submit"
                             disabled={isLoading}
-                            className="w-full bg-electric-blue hover:bg-blue-600 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/20 active:shadow-none mt-2"
+                            className="w-full bg-electric-blue hover:bg-blue-600 text-white h-12 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/20"
                         >
                             {isLoading ? (
                                 <>
@@ -227,25 +235,23 @@ export default function LoginPage() {
                                 </>
                             ) : (
                                 <>
-                                    Sign in <LogIn className="w-4 h-4" />
+                                    Sign In <LogIn className="w-4 h-4" />
                                 </>
                             )}
                         </motion.button>
                     </form>
 
-                    <div className="mt-4 text-center">
-                        <Link href="/forgot-password" className="text-slate-400 hover:text-white text-sm transition-colors">
-                            Forgot your password?
-                        </Link>
+                    <div className="flex items-center gap-4">
+                        <div className="h-px bg-white/10 flex-1" />
+                        <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Or</span>
+                        <div className="h-px bg-white/10 flex-1" />
                     </div>
 
-                    <div className="mt-8 pt-8 border-t border-white/5 text-center">
-                        <p className="text-slate-400 text-sm">
-                            Don't have an account? <Link href="/signup" className="text-white font-bold hover:text-electric-blue transition-colors underline decoration-slate-600 underline-offset-4 hover:decoration-electric-blue">Sign up for free</Link>
-                        </p>
-                    </div>
+                    <p className="text-center text-slate-400 text-sm">
+                        Don't have an account? <Link href="/signup" className="text-white font-bold hover:text-electric-blue transition-colors">Sign up for free</Link>
+                    </p>
 
-                    <div className="mt-8 text-center lg:hidden">
+                    <div className="text-center lg:hidden">
                         <Link href="/" className="inline-flex items-center gap-2 text-slate-500 hover:text-white text-sm font-medium transition-colors">
                             <ArrowLeft className="w-4 h-4" /> Back to Home
                         </Link>

@@ -7,14 +7,12 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-    { name: "what is xpo", href: "#whatxpo" },
+    { name: "how it works", href: "#how-it-works" },
     { name: "why xpo", href: "#whyxpo" },
-    { name: "xpo indexes", href: "#xpoindex" },
-    { name: "trending indexes", href: "#trendingindex" },
-    { name: "from index managers", href: "#fromindex" },
-    { name: "blog", href: "/blog" },
+    { name: "marketplace", href: "#xpoindex" },
+    { name: "expert view", href: "#blog" },
     { name: "team", href: "#team" },
-    { name: "contact", href: "/contact" },
+    { name: "contact", href: "#contact" },
 ];
 
 export default function Navbar() {

@@ -31,9 +31,16 @@ export default function Footer() {
                     <div>
                         <h4 className="text-white font-bold mb-5 md:mb-6">Quick Links</h4>
                         <ul className="flex flex-col gap-3 md:gap-4">
-                            {["What is XPO", "Why XPO", "XPO Indexes", "Trending Indexes", "Team", "Contact"].map((item) => (
-                                <li key={item}>
-                                    <Link href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{item}</Link>
+                            {[
+                                { name: "What is XPO", href: "#how-it-works" },
+                                { name: "Why XPO", href: "#whyxpo" },
+                                { name: "XPO Indexes", href: "#xpoindex" },
+                                { name: "Trending Indexes", href: "#xpoindex" },
+                                { name: "Team", href: "#team" },
+                                { name: "Contact", href: "#contact" }
+                            ].map((item) => (
+                                <li key={item.name}>
+                                    <Link href={item.href} className="text-slate-400 hover:text-white transition-colors text-sm">{item.name}</Link>
                                 </li>
                             ))}
                         </ul>

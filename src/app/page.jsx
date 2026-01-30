@@ -1,38 +1,32 @@
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import TradingPartners from "@/components/TradingPartners";
-import Awards from "@/components/Awards";
-import HowItWorks from "@/components/HowItWorks";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import Stats from "@/components/Stats";
-import DiscoverIndexes from "@/components/DiscoverIndexes";
-import AboutXPO from "@/components/AboutXPO";
-import IndexMarketplace from "@/components/Marketplace";
+import HeroModern from "@/components/HeroModern";
+import TrustedBy from "@/components/TrustedBy";
+import WhyChooseModern from "@/components/WhyChooseModern";
+import HowItWorksModern from "@/components/HowItWorksModern";
+import MarketplaceModern from "@/components/MarketplaceModern";
 import ExpertView from "@/components/ExpertView";
 import CallToAction from "@/components/CallToAction";
 import TeamSection from "@/components/TeamSection";
+import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
     return (
-        <main className="min-h-screen bg-navy-950">
+        <main className="min-h-screen bg-navy-950 font-sans selection:bg-electric-blue/30">
             <Navbar />
 
             {/* Scrollable Content Container */}
             <div className="relative">
-                <Hero />
-                <TradingPartners />
-                <Awards />
-                <HowItWorks />
+                <HeroModern />
+                <TrustedBy />
+                <WhyChooseModern />
+                <HowItWorksModern />
                 <span id="whyxpo" className="absolute -top-20" />
-                <WhyChooseUs />
-                <Stats />
-                <DiscoverIndexes />
-                <AboutXPO />
-                <IndexMarketplace />
+                <MarketplaceModern />
                 <ExpertView />
                 <CallToAction />
                 <TeamSection />
+                <ContactSection />
                 <Footer />
             </div>
 
