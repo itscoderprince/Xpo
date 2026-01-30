@@ -58,6 +58,7 @@ const MagicCard = ({ item, index }) => {
     const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
 
     const handleMouseMove = (e) => {
+        if (typeof window !== "undefined" && window.innerWidth < 768) return;
         const rect = e.currentTarget.getBoundingClientRect();
         x.set((e.clientX - rect.left) / rect.width - 0.5);
         y.set((e.clientY - rect.top) / rect.height - 0.5);
@@ -68,19 +69,21 @@ const MagicCard = ({ item, index }) => {
         y.set(0);
     };
 
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
     return (
         <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
-            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+            style={!isMobile ? { rotateX, rotateY, transformStyle: "preserve-3d" } : {}}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             className="group relative h-full"
         >
             <div className={`
-                relative h-full flex flex-col items-center text-center p-8 
+                relative h-full flex flex-col items-center text-center p-6 md:p-8 
                 bg-navy-900/50 backdrop-blur-md border border-white/5 rounded-3xl 
                 hover:border-white/10 transition-colors duration-300
                 shadow-2xl shadow-black/20
@@ -124,28 +127,28 @@ const MagicCard = ({ item, index }) => {
 
 export default function MarketplaceModern() {
     return (
-        <section id="xpoindex" className="py-24 relative bg-navy-950 overflow-hidden">
+        <section id="xpoindex" className="py-16 md:py-24 relative bg-navy-950 overflow-hidden">
 
             {/* Background Gradients & Map */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute inset-0 opacity-10">
                     <DottedMap
                         className="text-blue-500/20"
-                        dotRadius={0.3}
+                        dotRadius={window?.innerWidth < 768 ? 0.2 : 0.3}
                     />
                 </div>
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-blue-500/5 blur-[120px] rounded-full" />
             </div>
 
-            <div className="container mx-auto px-6 relative z-10">
+            <div className="container mx-auto px-4 md:px-6 relative z-10">
 
                 {/* Regional Strategists Header */}
-                <div className="text-left mb-12 border-l-4 border-blue-500 pl-6 space-y-2">
+                <div className="text-left mb-10 md:mb-12 border-l-4 border-blue-500 pl-4 md:pl-6 space-y-2">
                     <div className="flex items-center gap-3">
-                        <Globe className="w-6 h-6 text-blue-400" />
-                        <h3 className="text-2xl font-bold text-white">Power of XPO Regional Strategists</h3>
+                        <Globe className="w-5 h-5 md:w-6 md:h-6 text-blue-400" />
+                        <h3 className="text-xl md:text-2xl font-bold text-white">Power of XPO Regional Strategists</h3>
                     </div>
-                    <p className="text-slate-400">Discover the best performing strategies from our top analysts.</p>
+                    <p className="text-sm md:text-base text-slate-400">Discover the best performing strategies from our top analysts.</p>
                 </div>
 
                 {/* Grid */}

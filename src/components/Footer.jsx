@@ -6,10 +6,10 @@ import { Facebook, Twitter, Instagram, Linkedin, ArrowUpRight } from "lucide-rea
 
 export default function Footer() {
     return (
-        <footer className="bg-navy-950 border-t border-white/5 pt-16 md:pt-24 pb-12">
+        <footer className="bg-navy-950 border-t border-white/5 pt-12 md:pt-24 pb-12">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 mb-12 md:mb-16">
-                    <div className="flex flex-col gap-5 md:gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-12 md:mb-16">
+                    <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-5 md:gap-6">
                         <Link href="/" className="flex items-center gap-2">
                             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-lg flex items-center justify-center font-bold text-xl text-white">
                                 X
@@ -19,7 +19,7 @@ export default function Footer() {
                         <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
                             Driving Innovation in Investment Management Since 2016. Your trusted partner for Forex, CFD, and Crypto.
                         </p>
-                        <div className="flex gap-4">
+                        <div className="flex justify-center lg:justify-start gap-4">
                             {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
                                 <Link key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-electric-blue hover:text-white transition-all">
                                     <Icon className="w-5 h-5" />
@@ -28,39 +28,41 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    <div>
-                        <h4 className="text-white font-bold mb-5 md:mb-6">Quick Links</h4>
-                        <ul className="flex flex-col gap-3 md:gap-4">
-                            {[
-                                { name: "What is XPO", href: "#how-it-works" },
-                                { name: "Why XPO", href: "#whyxpo" },
-                                { name: "XPO Indexes", href: "#xpoindex" },
-                                { name: "Trending Indexes", href: "#xpoindex" },
-                                { name: "Team", href: "#team" },
-                                { name: "Contact", href: "#contact" }
-                            ].map((item) => (
-                                <li key={item.name}>
-                                    <Link href={item.href} className="text-slate-400 hover:text-white transition-colors text-sm">{item.name}</Link>
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="lg:col-span-2 grid grid-cols-2 gap-8 lg:gap-12">
+                        <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+                            <h4 className="text-white font-bold mb-5 md:mb-6">Quick Links</h4>
+                            <ul className="flex flex-col items-center lg:items-start gap-3 md:gap-4">
+                                {[
+                                    { name: "What is XPO", href: "#how-it-works" },
+                                    { name: "Why XPO", href: "#whyxpo" },
+                                    { name: "XPO Indexes", href: "#xpoindex" },
+                                    { name: "Trending Indexes", href: "#xpoindex" },
+                                    { name: "Team", href: "#team" },
+                                    { name: "Contact", href: "#contact" }
+                                ].map((item) => (
+                                    <li key={item.name}>
+                                        <Link href={item.href} className="text-slate-400 hover:text-white transition-colors text-sm">{item.name}</Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+                            <h4 className="text-white font-bold mb-5 md:mb-6">Resources</h4>
+                            <ul className="flex flex-col items-center lg:items-start gap-3 md:gap-4">
+                                {["Blog", "Expert View", "Investment Opportunity", "Company Profile", "Help Center", "Privacy Policy"].map((item) => (
+                                    <li key={item}>
+                                        <Link href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{item}</Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
 
-                    <div>
-                        <h4 className="text-white font-bold mb-5 md:mb-6">Resources</h4>
-                        <ul className="flex flex-col gap-3 md:gap-4">
-                            {["Blog", "Expert View", "Investment Opportunity", "Company Profile", "Help Center", "Privacy Policy"].map((item) => (
-                                <li key={item}>
-                                    <Link href="#" className="text-slate-400 hover:text-white transition-colors text-sm">{item}</Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="flex flex-col gap-5 md:gap-6">
+                    <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-5 md:gap-6">
                         <h4 className="text-white font-bold">Newsletter</h4>
-                        <p className="text-slate-400 text-sm">Stay updated with the latest market trends and XPO insights.</p>
-                        <div className="relative">
+                        <p className="text-slate-400 text-sm max-w-xs">Stay updated with the latest market trends and XPO insights.</p>
+                        <div className="relative w-full max-w-sm">
                             <input
                                 type="email"
                                 placeholder="Enter your email"

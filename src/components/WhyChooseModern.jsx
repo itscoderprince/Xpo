@@ -42,12 +42,12 @@ const features = [
 
 export default function WhyChooseModern() {
     return (
-        <section className="py-24 relative bg-navy-950 overflow-hidden">
+        <section className="py-16 md:py-24 relative bg-navy-950 overflow-hidden">
             {/* Ambient Background */}
             <div className="absolute inset-0">
                 <Particles
                     className="absolute inset-0 z-0"
-                    quantity={100}
+                    quantity={window?.innerWidth < 768 ? 40 : 100}
                     ease={80}
                     color="#ffffff"
                     refresh
@@ -58,12 +58,12 @@ export default function WhyChooseModern() {
             <div className="container mx-auto px-6 relative z-10">
 
                 {/* Header */}
-                <div className="text-center mb-16 max-w-3xl mx-auto">
+                <div className="text-center mb-10 md:mb-16 max-w-3xl mx-auto">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4"
+                        className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-3 md:mb-4"
                     >
                         Why Investors Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">XPO</span>
                     </motion.h2>
@@ -72,7 +72,7 @@ export default function WhyChooseModern() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-lg text-slate-400"
+                        className="text-base md:text-lg text-slate-400"
                     >
                         We combine cutting-edge technology, deep expertise, and unshakeable trust to deliver superior investment outcomes for over 4.9 million users.
                     </motion.p>
@@ -83,35 +83,35 @@ export default function WhyChooseModern() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    className="rounded-3xl bg-gradient-to-b from-navy-900 to-navy-950 border border-white/10 p-8 md:p-12 mb-16 relative overflow-hidden"
+                    className="rounded-3xl bg-gradient-to-b from-navy-900 to-navy-950 border border-white/10 p-6 md:p-12 mb-16 relative overflow-hidden"
                 >
                     <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:divide-x divide-white/10">
                         <div className="text-center md:text-left">
-                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">Total Funds Traded</h3>
-                            <div className="text-4xl lg:text-5xl font-black text-white flex items-baseline gap-1">
+                            <h3 className="text-[10px] md:text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">Total Funds Traded</h3>
+                            <div className="text-4xl lg:text-5xl font-black text-white flex items-baseline justify-center md:justify-start gap-1 whitespace-nowrap flex-nowrap">
                                 $<NumberTicker value={4} className="text-white" />.<NumberTicker value={4} className="text-white" />B+
                             </div>
                         </div>
                         <div className="text-center md:text-left md:pl-8">
-                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">Active Traders</h3>
-                            <div className="text-4xl lg:text-5xl font-black text-blue-400 flex items-baseline gap-1">
+                            <h3 className="text-[10px] md:text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">Active Traders</h3>
+                            <div className="text-4xl lg:text-5xl font-black text-blue-400 flex items-baseline justify-center md:justify-start gap-1 whitespace-nowrap flex-nowrap">
                                 <NumberTicker value={4} className="text-blue-400" />.<NumberTicker value={9} className="text-blue-400" />M+
                             </div>
                         </div>
                         <div className="text-center md:text-left md:pl-8">
-                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">Partner Earnings</h3>
-                            <div className="text-4xl lg:text-5xl font-black text-emerald-400 flex items-baseline gap-1">
+                            <h3 className="text-[10px] md:text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">Partner Earnings</h3>
+                            <div className="text-4xl lg:text-5xl font-black text-emerald-400 flex items-baseline justify-center md:justify-start gap-1 whitespace-nowrap flex-nowrap">
                                 $<NumberTicker value={2} className="text-emerald-400" />.<NumberTicker value={4} className="text-emerald-400" />B+
                             </div>
                         </div>
                         <div className="text-center md:text-left md:pl-8">
-                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">Global Reach</h3>
-                            <div className="text-4xl lg:text-5xl font-black text-purple-400 flex items-baseline gap-1">
+                            <h3 className="text-[10px] md:text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">Global Reach</h3>
+                            <div className="text-4xl lg:text-5xl font-black text-purple-400 flex items-baseline justify-center md:justify-start gap-1 whitespace-nowrap flex-nowrap">
                                 <NumberTicker value={120} className="text-purple-400" />+
                             </div>
-                            <span className="text-xs text-slate-500 font-medium">Countries Supported</span>
+                            <span className="text-[10px] md:text-xs text-slate-500 font-medium">Countries Supported</span>
                         </div>
                     </div>
                 </motion.div>

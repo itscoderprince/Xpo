@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Play, Sparkles } from "lucide-react";
+import { ArrowUpRight, Play, Sparkles, ShieldCheck, Zap, Headphones, Globe } from "lucide-react";
 import Link from "next/link";
 import { Particles } from "@/components/ui/particles";
 import { WordRotate } from "@/components/ui/word-rotate";
@@ -9,12 +9,12 @@ import { RainbowButton } from "@/components/ui/rainbow-button";
 
 export default function HeroModern() {
     return (
-        <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden bg-navy-950">
+        <section className="relative min-h-screen flex items-center pt-20 md:pt-24 overflow-hidden bg-navy-950">
             {/* Ambient Background */}
             <div className="absolute inset-0 z-0">
                 <Particles
                     className="absolute inset-0"
-                    quantity={100}
+                    quantity={typeof window !== 'undefined' && window?.innerWidth < 768 ? 40 : 100}
                     ease={80}
                     color="#ffffff"
                     refresh
@@ -27,36 +27,46 @@ export default function HeroModern() {
                 <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-emerald-600/10 blur-[150px] rounded-full" />
             </div>
 
-            <div className="container mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="container mx-auto px-4 md:px-6 relative z-10 grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
 
                 {/* Left Content */}
-                <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8">
+                <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8">
 
                     {/* Badge */}
-                    <motion.div
+                    {/* <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md"
                     >
-                        <Sparkles className="w-4 h-4 text-electric-blue" />
-                        <span className="text-xs font-semibold tracking-wider text-slate-300 uppercase">
+                        <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4 text-electric-blue" />
+                        <span className="text-[10px] font-bold tracking-[0.2em] text-blue-400 uppercase">
                             Smart Investment Platform
                         </span>
-                    </motion.div>
+                    </motion.div> */}
 
                     {/* Headline */}
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1]"
-                    >
-                        Invest Smarter with <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">
-                            XPO
-                        </span>
-                    </motion.h1>
+                    <div className="space-y-2">
+                        <motion.h1
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.1 }}
+                            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1]"
+                        >
+                            Invest Smarter with <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">
+                                XPO Technology
+                            </span>
+                        </motion.h1>
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                            className="text-xs md:text-sm font-bold text-blue-400/60 uppercase tracking-[0.3em]"
+                        >
+                            Institutional-Grade Assets • Fully Regulated
+                        </motion.p>
+                    </div>
 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -69,7 +79,7 @@ export default function HeroModern() {
                             className="text-2xl font-bold text-white py-2"
                             words={["Forex Trading", "Cryptocurrency", "Mutual Index Funds", "CFD Investments"]}
                         />
-                        <span>managed by experts for maximum growth.</span>
+                        <span>Managed by institutional experts for secure, long-term wealth creation.</span>
                     </motion.div>
 
                     {/* CTA Buttons */}
@@ -85,8 +95,8 @@ export default function HeroModern() {
                             </RainbowButton>
                         </Link>
 
-                        <button className="h-14 px-8 text-lg font-medium text-white/80 hover:text-white border border-white/10 hover:bg-white/5 rounded-xl transition-all flex items-center justify-center gap-2 w-full sm:w-auto">
-                            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                        <button className="h-14 px-8 text-lg font-medium text-white/80 hover:text-white border border-white/10 hover:bg-white/5 rounded-xl transition-all flex items-center justify-center gap-2 w-full sm:w-auto overflow-hidden group">
+                            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-electric-blue transition-colors">
                                 <Play className="w-3 h-3 fill-current" />
                             </div>
                             <span>How it Works</span>
@@ -98,15 +108,19 @@ export default function HeroModern() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.6 }}
-                        className="pt-4 flex items-center gap-6 text-sm text-slate-500"
+                        className="pt-4 flex flex-wrap justify-center lg:justify-start items-center gap-6 text-[10px] md:text-xs font-bold uppercase tracking-[0.1em]"
                     >
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <div className="flex items-center gap-2 text-emerald-400 bg-emerald-400/5 px-3 py-1.5 rounded-lg border border-emerald-400/10">
+                            <ShieldCheck className="w-4 h-4" />
                             Verified Security
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+                        <div className="flex items-center gap-2 text-blue-400 bg-blue-400/5 px-3 py-1.5 rounded-lg border border-blue-400/10">
+                            <Zap className="w-4 h-4" />
                             Instant Withdrawals
+                        </div>
+                        <div className="flex items-center gap-2 text-slate-400 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
+                            <Headphones className="w-4 h-4" />
+                            24/7 Global Support
                         </div>
                     </motion.div>
                 </div>
@@ -161,14 +175,34 @@ export default function HeroModern() {
 
                         </div>
 
-                        {/* Floating Elements */}
+                        {/* Floating Elements - Active Clients */}
                         <motion.div
                             animate={{ y: [-10, 10, -10] }}
                             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                            className="absolute -right-8 top-20 glass-card p-4 rounded-2xl border border-white/10 z-20"
+                            className="absolute -right-16 top-0 bg-navy-900/60 backdrop-blur-xl p-4 rounded-2xl border border-white/10 z-20 shadow-xl"
                         >
-                            <div className="text-xs text-slate-400 font-bold uppercase mb-1">Growth</div>
-                            <div className="text-2xl font-bold text-white">+128%</div>
+                            <div className="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-[0.2em]">Active Clients</div>
+                            <div className="text-2xl font-bold text-white">25K+</div>
+                        </motion.div>
+
+                        {/* Floating Elements - Total Traded */}
+                        <motion.div
+                            animate={{ y: [10, -10, 10] }}
+                            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                            className="absolute -left-32 top-24 bg-navy-900/60 backdrop-blur-xl p-4 rounded-2xl border border-white/10 z-20 shadow-xl"
+                        >
+                            <div className="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-[0.2em]">Total Traded</div>
+                            <div className="text-2xl font-bold text-blue-400">$4.4B+</div>
+                        </motion.div>
+
+                        {/* Floating Elements - Partner Earned */}
+                        <motion.div
+                            animate={{ y: [-10, 10, -10] }}
+                            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                            className="absolute -right-20 -bottom-8 bg-emerald-500/10 backdrop-blur-xl p-4 rounded-2xl border border-emerald-500/20 z-20 shadow-xl"
+                        >
+                            <div className="text-[10px] text-emerald-400/80 font-bold uppercase mb-1 tracking-[0.2em]">Partner Earned</div>
+                            <div className="text-2xl font-bold text-emerald-400">$850M+</div>
                         </motion.div>
                     </div>
                 </motion.div>
