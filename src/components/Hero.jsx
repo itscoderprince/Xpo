@@ -145,7 +145,7 @@ export default function Hero() {
                                 <p className="text-sm sm:text-lg font-bold text-white">+24.5%</p>
                             </div>
                         </motion.div>
-
+                        {/*  */}
                         <motion.div
                             animate={{ y: [0, -15, 0] }}
                             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
